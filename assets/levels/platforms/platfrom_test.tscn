@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=3 uid="uid://bo75xkw04bkvs"]
+
+[ext_resource type="Script" uid="uid://v8g48ibf4eaa" path="res://addons/shape_texture_2d/shape_texture_2d.gd" id="1_h5ab6"]
+[ext_resource type="Script" uid="uid://yh03hs778xaf" path="res://addons/shape_texture_2d/drawable_rectangle.gd" id="2_ol4pv"]
+
+[sub_resource type="Resource" id="Resource_1f1pk"]
+script = ExtResource("2_ol4pv")
+corner_rounding = 0.0
+metadata/_custom_type_script = "uid://yh03hs778xaf"
+
+[sub_resource type="Texture2D" id="Texture2D_41n17"]
+resource_local_to_scene = false
+resource_name = ""
+script = ExtResource("1_h5ab6")
+size = Vector2i(64, 64)
+shape = SubResource("Resource_1f1pk")
+fill_type = 0
+fill_color = Color(0.479634, 0.313126, 0.0379405, 1)
+fill_from = Vector2(0, 0)
+fill_to = Vector2(1, 0)
+fill_repeat = "pad"
+stroke_type = 0
+stroke_width = 0.0
+stroke_color = Color(0, 0, 0, 1)
+stroke_from = Vector2(0, 0)
+stroke_to = Vector2(1, 0)
+stroke_repeat = "pad"
+stroke_joint = "round"
+offset = Vector2(0, 0)
+rotation = 0.0
+scale = Vector2(1, 1)
+metadata/_custom_type_script = "uid://v8g48ibf4eaa"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1f1pk"]
+size = Vector2(64, 64)
+
+[node name="PlatfromTest" type="StaticBody2D" groups=["platform"]]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("Texture2D_41n17")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_1f1pk")
+one_way_collision = true

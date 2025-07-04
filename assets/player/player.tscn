@@ -1,0 +1,91 @@
+[gd_scene load_steps=13 format=3 uid="uid://d3yqubyqvfbxi"]
+
+[ext_resource type="Script" uid="uid://d3xgp4vkcosnq" path="res://assets/player/player.gd" id="1_v2miy"]
+[ext_resource type="Texture2D" uid="uid://ps2d2h7h0l4g" path="res://assets/player/squishi.png" id="2_h6syq"]
+[ext_resource type="Script" uid="uid://bhhuigmslcgok" path="res://assets/player/player_idle_sprites_squisher.gd" id="2_toylo"]
+[ext_resource type="Script" uid="uid://cvvhafw3b3bj7" path="res://assets/player/player_sprite.gd" id="3_d5dr7"]
+[ext_resource type="Texture2D" uid="uid://fytd4kudvxh" path="res://assets/player/squishi_eyes.png" id="3_v2miy"]
+[ext_resource type="Script" uid="uid://dlpxy4k5mu84" path="res://assets/player/player_eyes.gd" id="4_ouxva"]
+[ext_resource type="Script" uid="uid://c2osmsh6x5j28" path="res://assets/player/disposable_particles.gd" id="7_tb4ck"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h6syq"]
+size = Vector2(32, 32)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_v2miy"]
+particle_flag_disable_z = true
+inherit_velocity_ratio = 0.8
+spread = 113.684
+initial_velocity_max = 77.38
+gravity = Vector3(0, 98, 0)
+
+[sub_resource type="Curve" id="Curve_toylo"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_tb4ck"]
+curve = SubResource("Curve_toylo")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_toylo"]
+lifetime_randomness = 1.0
+particle_flag_disable_z = true
+emission_shape_scale = Vector3(16, 0.1, 1)
+emission_shape = 3
+emission_box_extents = Vector3(1, 1, 1)
+angle_min = 1.07288e-05
+angle_max = 90.0
+inherit_velocity_ratio = 0.8
+direction = Vector3(0, -1, 0)
+spread = 90.0
+initial_velocity_max = 77.38
+gravity = Vector3(0, 98, 0)
+scale_min = 1.5
+scale_max = 3.0
+scale_curve = SubResource("CurveTexture_tb4ck")
+color = Color(0.18653, 0.914108, 0.292526, 1)
+hue_variation_min = -0.3
+hue_variation_max = 0.3
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("landing_particles")]
+script = ExtResource("1_v2miy")
+landing_particles = NodePath("Particles/LandingParticles")
+
+[node name="PlayerSprite" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+texture = ExtResource("2_h6syq")
+script = ExtResource("3_d5dr7")
+
+[node name="Eyes" type="Sprite2D" parent="PlayerSprite"]
+texture = ExtResource("3_v2miy")
+script = ExtResource("4_ouxva")
+
+[node name="IdleSpritesSquisher" type="Node2D" parent="."]
+script = ExtResource("2_toylo")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_h6syq")
+
+[node name="AirStateDelayTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+one_shot = true
+
+[node name="Particles" type="Node2D" parent="."]
+unique_name_in_owner = true
+metadata/_edit_lock_ = true
+
+[node name="EdgeFall" type="GPUParticles2D" parent="Particles"]
+visible = false
+position = Vector2(0, 64)
+emitting = false
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_v2miy")
+
+[node name="LandingParticles" type="GPUParticles2D" parent="Particles"]
+visible = false
+position = Vector2(0, 16)
+emitting = false
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_toylo")
+script = ExtResource("7_tb4ck")
+
+[connection signal="timeout" from="AirStateDelayTimer" to="." method="_on_air_state_delay_timer_timeout"]

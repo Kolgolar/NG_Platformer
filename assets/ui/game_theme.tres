@@ -1,0 +1,20 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://b62g4cqi3vxv3"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_chd2t"]
+bg_color = Color(0.214876, 0.0929692, 0.0777623, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_36qhr"]
+bg_color = Color(0.608618, 0.142332, 0.0841669, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[resource]
+HealthBar/base_type = &"ProgressBar"
+HealthBar/styles/background = SubResource("StyleBoxFlat_chd2t")
+HealthBar/styles/fill = SubResource("StyleBoxFlat_36qhr")
