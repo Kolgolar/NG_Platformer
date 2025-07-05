@@ -1,43 +1,51 @@
 class_name Player
 extends CharacterBody2D
 
+signal max_hp_changed(value: float)
 signal hp_changed(value: float)
+signal dead
 
-const MAX_MOVE_SPEED: float = 350.
-const GRAVITY_VEL: float = 40.
-const JUMP_VEL: float = 600.
-
-var hp := 100.:
-	set(value):
-		hp = value
-		hp_changed.emit(hp)
+var _alive := true
 # Истина, если перс на полу или совсем недавно покинул поверхность БЕЗ совершения прыжка. Тем самым
 # даём игроку небольшую фору
 var _can_floor_jump := false
 var _air_jumps_q := 0
 var _was_on_floor := false
 var _ignored_platforms: Array[PhysicsBody2D] = []
+var _knockback_vel_x_add := 0.
+var _curr_dir: Lib.Direction
 
-@export_category("Jump")
+@export_category("Movement")
+@export var max_move_speed: float = 350.
+@export var gravity_vel: float = 2300.
+@export var jump_vel: float = 600.
 @export var max_air_jumps_q := 1
 @export var air_state_detect_delay: float = 0.2
-
-@export_category("Inercia")
-@export var inercia_enabled := false
-@export var inertia_accel := 400.0
+@export var knockback_damp := 10.
 
 @export_category("Particles")
 @export var landing_particles: GPUParticles2D
 
 @export_category("Combat")
-@export var max_hp := 100.
+@export var max_hp := 100.:
+	set(value):
+		max_hp = value
+		max_hp_changed.emit(value)
 @export var melee_damage := 50.
 @export var ranged_damage := 33.
+@export var melee_weapon: MeleeWeapon
+
+@onready var hp: float = max_hp:
+	set(value):
+		hp = value
+		hp_changed.emit(value)
+		if hp <= 0:
+			death()
 
 
 func _ready() -> void:
-	
 	await get_tree().process_frame
+	max_hp = max_hp
 	hp = hp
 
 
@@ -45,17 +53,42 @@ func _physics_process(delta: float) -> void:
 	_movement(delta)
 
 
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("attack"):
+		melee_weapon.attack(get_dir())
+
+
+func death():
+	hide()
+	dead.emit()
+	%BodyCollision.disabled = true
+	_alive = false
+
+
+func get_dir() -> Lib.Direction:
+	return _curr_dir
+
+func hit(damage: float, knockback: float, from: Vector2):
+	hp -= damage
+	var knockback_dir = Vector2(
+		sign(global_position.x - from.x) * 2, -1.
+	).normalized()
+	var total_knockback: Vector2 = knockback_dir * knockback
+	_knockback_vel_x_add += total_knockback.x
+	velocity.y = total_knockback.y
+
+
 func _movement(delta: float) -> void:
+	if !_alive: return
 	#----------------------------
 	# Движение по горизонтали
 	#----------------------------
 	var axis_x = Input.get_axis("move_left", "move_right")
-	if inercia_enabled:
-		velocity.x = lerp(velocity.x, MAX_MOVE_SPEED * axis_x, 30.0 * delta)
-	else:
-		velocity.x = axis_x * MAX_MOVE_SPEED
+	_knockback_vel_x_add = lerp(_knockback_vel_x_add, 0., knockback_damp * delta)
+	velocity.x = axis_x * max_move_speed + _knockback_vel_x_add
 	if axis_x != 0:
 		%PlayerSprite.scale.x = axis_x
+		_curr_dir = Lib.Direction.RIGHT if axis_x > 0 else Lib.Direction.LEFT
 	
 	#----------------------------
 	# Движение по вертикали
@@ -72,7 +105,7 @@ func _movement(delta: float) -> void:
 			should_jump = true
 		
 		if should_jump:
-			velocity.y = -JUMP_VEL
+			velocity.y = -jump_vel
 			%PlayerSprite.start_squish_tween()
 	
 	#----------------------------
@@ -106,7 +139,7 @@ func _movement(delta: float) -> void:
 		if _can_floor_jump && %AirStateDelayTimer.is_stopped():
 			%AirStateDelayTimer.start(air_state_detect_delay)
 	
-	velocity.y += GRAVITY_VEL
+	velocity.y += gravity_vel * delta
 	move_and_slide()
 
 
@@ -124,3 +157,4 @@ func _clear_platform_exceptions():
 
 func _on_air_state_delay_timer_timeout() -> void:
 	_can_floor_jump = false
+ 

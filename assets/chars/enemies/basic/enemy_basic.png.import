@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://fytd4kudvxh"
-path="res://.godot/imported/squishi_eyes.png-7a785ffda652fcc8aeb1844c68e7b424.ctex"
+uid="uid://ckf5vjpa0agu7"
+path="res://.godot/imported/enemy_basic.png-ee554ee00a305b8100bfbe83dc4ac95d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/player/squishi_eyes.png"
-dest_files=["res://.godot/imported/squishi_eyes.png-7a785ffda652fcc8aeb1844c68e7b424.ctex"]
+source_file="res://assets/chars/enemies/basic/enemy_basic.png"
+dest_files=["res://.godot/imported/enemy_basic.png-ee554ee00a305b8100bfbe83dc4ac95d.ctex"]
 
 [params]
 

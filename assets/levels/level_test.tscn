@@ -1,12 +1,13 @@
-[gd_scene load_steps=12 format=4 uid="uid://bclridurujjoc"]
+[gd_scene load_steps=14 format=4 uid="uid://bclridurujjoc"]
 
 [ext_resource type="Script" uid="uid://ct55q8sf54ve1" path="res://assets/camera/game_cam.gd" id="1_1f1pk"]
-[ext_resource type="PackedScene" uid="uid://d3yqubyqvfbxi" path="res://assets/player/player.tscn" id="1_18tpw"]
+[ext_resource type="PackedScene" uid="uid://d3yqubyqvfbxi" path="res://assets/chars/player/player.tscn" id="1_18tpw"]
 [ext_resource type="Script" uid="uid://bmvwbr572h12t" path="res://assets/levels/level_base.gd" id="1_41n17"]
 [ext_resource type="PackedScene" uid="uid://bo75xkw04bkvs" path="res://assets/levels/platforms/platfrom_test.tscn" id="2_8y40q"]
 [ext_resource type="Texture2D" uid="uid://c1svr2itdsp26" path="res://assets/levels/tilesets/cyber/tiles.png" id="5_8dh2b"]
 [ext_resource type="Texture2D" uid="uid://bvhahmf87u3te" path="res://assets/levels/tilesets/cyber/props_01.png" id="6_338rs"]
 [ext_resource type="Texture2D" uid="uid://bxl2nbf7tyvp3" path="res://assets/levels/tilesets/cyber/buildings.png" id="7_5dniu"]
+[ext_resource type="PackedScene" uid="uid://cts5s3t4asa6e" path="res://assets/chars/enemies/enemy_basic.tscn" id="8_5dniu"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8dh2b"]
 resource_name = "Tiles"
@@ -511,13 +512,29 @@ sources/4 = SubResource("TileSetAtlasSource_8dh2b")
 sources/5 = SubResource("TileSetAtlasSource_8tbbx")
 sources/6 = SubResource("TileSetAtlasSource_yrncl")
 
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_5dniu"]
+
 [node name="LevelTest" type="Node2D" node_paths=PackedStringArray("player")]
 script = ExtResource("1_41n17")
 player = NodePath("Player")
 
+[node name="ColorRect" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(5000, 5000)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1256.0
+offset_top = -1968.0
+offset_right = 3744.0
+offset_bottom = 3032.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
 [node name="GameCam" type="Camera2D" parent="." node_paths=PackedStringArray("target")]
 unique_name_in_owner = true
 position = Vector2(696, 376)
+zoom = Vector2(3, 3)
 position_smoothing_enabled = true
 script = ExtResource("1_1f1pk")
 target = NodePath("../Player")
@@ -526,7 +543,6 @@ target = NodePath("../Player")
 unique_name_in_owner = true
 position = Vector2(696, 440)
 air_state_detect_delay = 0.1
-inertia_accel = 150.0
 
 [node name="Platforms" type="Node2D" parent="."]
 metadata/_edit_lock_ = true
@@ -536,6 +552,17 @@ position = Vector2(440, 344)
 
 [node name="Layer0" type="TileMapLayer" parent="."]
 use_parent_material = true
-tile_map_data = PackedByteArray("AAAqACAABAAEAAEAAAArACAABAAEAAEAAAAsACAABAAEAAEAAAAtACAABAAEAAEAAAAuACAABAAEAAEAAAAvACAABAAEAAEAAAApACAABAAEAAEAAAAoACAABAAEAAEAAAAnACAABAAEAAEAAAAmACAABAAEAAEAAAAlACAABAADAAEAAAAlACEABAADAAIAAAAlACIABAADAAIAAAAlACMABAADAAIAAAAlACQABAADAAIAAAAlACUABAADAAIAAAAlACYABAADAAIAAAAwACAABAAFAAMAAAAwAB8ABAAFAAIAAAAwAB4ABAAFAAIAAAAwAB0ABAAFAAIAAAAwABwABAAFAAIAAAAwABsABAAFAAIAAAAwABoABAAFAAIAAAAmACYABAAEAAgAAAAnACYABAAFAAgAAAApACYABAAEAAcAAAAqACYABAAEAAcAAAArACYABAAEAAcAAAAsACYABAAEAAcAAAAtACYABAAFAAgAAAAuACYABAAEAAcAAAAoACYABAAFAAcAAAA=")
+tile_map_data = PackedByteArray("AAAqACAABAAEAAEAAAArACAABAAEAAEAAAAsACAABAAEAAEAAAAtACAABAAEAAEAAAAuACAABAAEAAEAAAAvACAABAAEAAEAAAApACAABAAEAAEAAAAoACAABAAEAAEAAAAnACAABAAEAAEAAAAmACAABAAEAAEAAAAlACAABAAEAAEAAAAlACEABAADAAIAAAAlACIABAADAAIAAAAlACMABAADAAIAAAAlACQABAADAAIAAAAlACUABAADAAIAAAAlACYABAADAAIAAAAwACAABAAFAAMAAAAwAB8ABAAFAAIAAAAwAB4ABAAFAAIAAAAwAB0ABAAFAAIAAAAwABwABAAFAAIAAAAwABsABAAFAAIAAAAwABoABAAFAAIAAAAmACYABAAEAAgAAAAnACYABAAFAAgAAAApACYABAAEAAcAAAAqACYABAAEAAcAAAArACYABAAEAAcAAAAsACYABAAEAAcAAAAtACYABAAFAAgAAAAuACYABAAEAAcAAAAoACYABAAFAAcAAAAkACAABAAEAAEAAAAjACAABAAEAAEAAAAiACAABAAEAAEAAAAhACAABAAEAAEAAAAgACAABAAEAAEAAAAfACAABAAEAAEAAAAeACAABAAEAAEAAAAdACAABAAEAAEAAAAcACAABAAEAAEAAAAbACAABAAEAAEAAAAaACAABAAEAAEAAAAZACAABAAEAAEAAAAYACAABAAEAAEAAAAXACAABAAEAAEAAAAaAB8ABAAEAAEAAAA=")
 tile_set = SubResource("TileSet_41n17")
 metadata/_edit_lock_ = true
+
+[node name="EnemyBasic" parent="." instance=ExtResource("8_5dniu")]
+position = Vector2(488, 496)
+
+[node name="BoundaryBottom" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BoundaryBottom"]
+position = Vector2(920, 1080)
+shape = SubResource("WorldBoundaryShape2D_5dniu")
+
+[connection signal="body_entered" from="BoundaryBottom" to="." method="_on_world_boundary_body_entered"]

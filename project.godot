@@ -17,8 +17,10 @@ config/icon="res://icon.svg"
 
 [display]
 
-window/size/viewport_width=640
-window/size/viewport_height=480
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/size/window_width_override=640
+window/size/window_height_override=480
 window/stretch/mode="viewport"
 window/stretch/aspect="expand"
 
@@ -29,6 +31,7 @@ platform=""
 [gui]
 
 theme/custom="uid://b62g4cqi3vxv3"
+theme/custom_font="uid://dnpm8ck350y1h"
 
 [input]
 
@@ -68,10 +71,16 @@ game_restart={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="World"
+2d_physics/layer_2="Player"
+2d_physics/layer_3="Enemy"
+
 [physics]
 
 common/physics_interpolation=true
 
 [rendering]
 
-textures/canvas_textures/default_texture_filter=0
+textures/canvas_textures/default_texture_filter=3

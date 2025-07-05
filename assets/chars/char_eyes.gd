@@ -29,6 +29,14 @@ func _ready() -> void:
 	_change_glaze_state()
 
 
+func enable_glazing(enable: bool):
+	if enable:
+		_glaze_timer.start()
+	else:
+		_glaze_timer.stop()
+		position *= 0
+
+
 func _change_blink_state():
 	_is_blinking = !_is_blinking
 	visible = !_is_blinking

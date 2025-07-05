@@ -1,20 +1,41 @@
-[gd_resource type="Theme" load_steps=3 format=3 uid="uid://b62g4cqi3vxv3"]
+[gd_resource type="Theme" load_steps=5 format=3 uid="uid://b62g4cqi3vxv3"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2ke0a"]
+bg_color = Color(0.309918, 0.0326681, 0.0326681, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.235242, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gfiuu"]
+bg_color = Color(0.574675, 0.128605, 0.128605, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.235294, 0, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_chd2t"]
-bg_color = Color(0.214876, 0.0929692, 0.0777623, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
+bg_color = Color(0.0236533, 0.113046, 0.0178637, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_36qhr"]
-bg_color = Color(0.608618, 0.142332, 0.0841669, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
+bg_color = Color(0.0274372, 0.337072, 0.0133629, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+expand_margin_top = 20.0
+expand_margin_bottom = 20.0
 
 [resource]
+EnemyHealthBar/base_type = &"ProgressBar"
+EnemyHealthBar/styles/background = SubResource("StyleBoxFlat_2ke0a")
+EnemyHealthBar/styles/fill = SubResource("StyleBoxFlat_gfiuu")
 HealthBar/base_type = &"ProgressBar"
 HealthBar/styles/background = SubResource("StyleBoxFlat_chd2t")
 HealthBar/styles/fill = SubResource("StyleBoxFlat_36qhr")

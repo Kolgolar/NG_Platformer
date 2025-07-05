@@ -13,12 +13,12 @@ script = ExtResource("1_m1qs8")
 
 [node name="HP_Bar" type="ProgressBar" parent="."]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(200, 15)
+custom_minimum_size = Vector2(600, 50)
 layout_mode = 0
-offset_left = 8.0
-offset_top = 8.0
-offset_right = 208.0
-offset_bottom = 23.0
+offset_left = 64.0
+offset_top = 64.0
+offset_right = 664.0
+offset_bottom = 104.0
 theme_type_variation = &"HealthBar"
 value = 75.0
 show_percentage = false
@@ -31,4 +31,48 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_font_sizes/font_size = 60
 text = " HP"
+vertical_alignment = 1
+
+[node name="GameLostLabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -48.5
+offset_top = -11.5
+offset_right = 48.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 100
+text = "
+GAME OVER!
+
+Press [R] to restart"
+horizontal_alignment = 1
+
+[node name="GameWonLabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -48.5
+offset_top = -11.5
+offset_right = 48.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 100
+text = "
+YOU WON!
+
+Press [R] to restart"
+horizontal_alignment = 1

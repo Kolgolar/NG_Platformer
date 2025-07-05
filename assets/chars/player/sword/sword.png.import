@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ps2d2h7h0l4g"
-path="res://.godot/imported/squishi.png-ab5118925066bead25c5d10c703a0ea5.ctex"
+uid="uid://b82heicv0wui2"
+path="res://.godot/imported/sword.png-186a874e0c15e79c86ebb622eae118f0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/player/squishi.png"
-dest_files=["res://.godot/imported/squishi.png-ab5118925066bead25c5d10c703a0ea5.ctex"]
+source_file="res://assets/chars/player/sword/sword.png"
+dest_files=["res://.godot/imported/sword.png-186a874e0c15e79c86ebb622eae118f0.ctex"]
 
 [params]
 
