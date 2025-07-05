@@ -1,7 +1,7 @@
 extends ProgressBar
 
 
-func set_max_hp_value(value: float):
+func set_max_hp_value(value: float) -> void:
 	max_value = value
 	
 

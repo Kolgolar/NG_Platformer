@@ -65,7 +65,7 @@ func _physics_process(delta: float) -> void:
 	_movement(delta)
 
 
-func hit(attack_params: AttackParams, from: Vector2):
+func hit(attack_params: AttackParams, from: Vector2) -> void:
 	hp -= attack_params.damage
 	var knockback_dir = Vector2(
 		sign(global_position.x - from.x) * 2, -1.
@@ -81,12 +81,12 @@ func hit(attack_params: AttackParams, from: Vector2):
 	_search_at(from)
 
 
-func death():
+func death() -> void:
 	dead.emit()
 	queue_free()
 
 
-func _raycast_processing():
+func _raycast_processing() -> void:
 	#------------------
 	# Необходимо ли поменять направление движения
 	#------------------
@@ -114,17 +114,17 @@ func _movement(delta: float) -> void:
 	move_and_slide()
 
 
-func _change_move_dir():
+func _change_move_dir() -> void:
 	_curr_move_dir *= -1
 
 
-func _update_move_dir_dependencies():
+func _update_move_dir_dependencies() -> void:
 	%EnemySprite.look_to(_curr_move_dir)
 	%RayCasts.scale.x = _curr_move_dir
 	%DetectionArea.scale.x = _curr_move_dir
 
 
-func _update_state_dependencies():
+func _update_state_dependencies() -> void:
 	%PlayerDetectedSign.visible = _curr_state == State.CHASING
 	match _curr_state:
 		State.NONE:
@@ -135,7 +135,7 @@ func _update_state_dependencies():
 			_target_speed_x = patroling_speed
 
 
-func _attack_targets_to_hit():
+func _attack_targets_to_hit() -> void:
 	if _is_freezed_by_attacking || !%AttackTimeout.is_stopped(): return
 	for targ in _targets_to_hit:
 		if targ is Player:
@@ -146,7 +146,7 @@ func _attack_targets_to_hit():
 			_is_freezed_by_attacking = false
 
 
-func _search_at(pos: Vector2):
+func _search_at(pos: Vector2) -> void:
 	var diff = sign(pos.x - global_position.x)
 	_curr_move_dir = Lib.Direction.LEFT if diff < 0 else Lib.Direction.RIGHT
 

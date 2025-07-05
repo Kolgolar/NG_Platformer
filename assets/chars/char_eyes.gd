@@ -29,7 +29,7 @@ func _ready() -> void:
 	_change_glaze_state()
 
 
-func enable_glazing(enable: bool):
+func enable_glazing(enable: bool) -> void:
 	if enable:
 		_glaze_timer.start()
 	else:
@@ -37,7 +37,7 @@ func enable_glazing(enable: bool):
 		position *= 0
 
 
-func _change_blink_state():
+func _change_blink_state() -> void:
 	_is_blinking = !_is_blinking
 	visible = !_is_blinking
 	var time = randf_range(min_blink_time, max_blink_time) if _is_blinking\
@@ -45,7 +45,7 @@ func _change_blink_state():
 	_blink_timer.start(time)
 
 
-func _change_glaze_state():
+func _change_glaze_state() -> void:
 	position = Vector2(
 		randf_range(-MAX_GLAZE_SHIFTS.x, MAX_GLAZE_SHIFTS.x),
 		randf_range(-MAX_GLAZE_SHIFTS.y, MAX_GLAZE_SHIFTS.y)

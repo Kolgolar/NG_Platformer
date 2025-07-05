@@ -22,14 +22,15 @@ func get_all_enemies() -> Array[Node]:
 	return get_tree().get_nodes_in_group("enemy")
 
 
-func _on_enemy_dead():
+func _on_enemy_dead() -> void:
 	killed_enemies += 1
 	enemy_killed.emit()
 
 
-func _on_player_dead():
+func _on_player_dead() -> void:
 	game_over.emit(false)
 
 
 func _on_end_level_trigger_triggered() -> void:
 	game_over.emit(true)
+	player.is_control_locked = true

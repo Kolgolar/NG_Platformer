@@ -1,9 +1,8 @@
-[gd_scene load_steps=18 format=3 uid="uid://d3yqubyqvfbxi"]
+[gd_scene load_steps=17 format=3 uid="uid://d3yqubyqvfbxi"]
 
 [ext_resource type="Script" uid="uid://d3xgp4vkcosnq" path="res://assets/chars/player/player.gd" id="1_v2miy"]
 [ext_resource type="Texture2D" uid="uid://ps2d2h7h0l4g" path="res://assets/chars/player/squishi.png" id="2_h6syq"]
 [ext_resource type="Script" uid="uid://ccnhjawrmkyt3" path="res://assets/common/attack_params.gd" id="2_qf4kh"]
-[ext_resource type="Script" uid="uid://bhhuigmslcgok" path="res://assets/chars/player/player_idle_sprites_squisher.gd" id="2_toylo"]
 [ext_resource type="Script" uid="uid://cvvhafw3b3bj7" path="res://assets/chars/char_sprite.gd" id="3_d5dr7"]
 [ext_resource type="Texture2D" uid="uid://fytd4kudvxh" path="res://assets/chars/player/squishi_eyes.png" id="3_v2miy"]
 [ext_resource type="Script" uid="uid://dlpxy4k5mu84" path="res://assets/chars/char_eyes.gd" id="4_ouxva"]
@@ -58,7 +57,7 @@ hue_variation_min = -0.3
 hue_variation_max = 0.3
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qf4kh"]
-size = Vector2(12, 2)
+size = Vector2(15, 2)
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("landing_particles", "melee_weapon")]
 collision_layer = 2
@@ -90,9 +89,6 @@ script = ExtResource("3_d5dr7")
 [node name="Eyes" type="Sprite2D" parent="PlayerSprite"]
 texture = ExtResource("3_v2miy")
 script = ExtResource("4_ouxva")
-
-[node name="IdleSpritesSquisher" type="Node2D" parent="."]
-script = ExtResource("2_toylo")
 
 [node name="BodyCollision" type="CollisionShape2D" parent="."]
 unique_name_in_owner = true

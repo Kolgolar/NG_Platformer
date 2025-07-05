@@ -7,15 +7,15 @@ const DEFAULT_HEIGHT: float = 64.
 @onready var _default_scale = scale
 
 
-func start_squish_tween():
+func start_squish_tween() -> void:
 	create_tween().tween_method(_squishing, 0., 1., SQUISHING_TIME)
 	
 
-func look_to(dir: Lib.Direction):
+func look_to(dir: Lib.Direction) -> void:
 	scale.x = dir * _default_scale.x
 
 
-func _squishing(value: float):
+func _squishing(value: float) -> void:
 	var mult = sin(value * PI) * SQUISHING_MULT
 	#print(mult)
 	%PlayerSprite.scale.y = (1 - mult) * _default_scale.y

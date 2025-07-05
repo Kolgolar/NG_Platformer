@@ -1,7 +1,6 @@
 class_name MeleeWeapon
 extends Node2D
 
-
 var _bodies_was_hit: Array[Node2D] = []
 
 @export var attack_params: AttackParams
@@ -13,7 +12,7 @@ func _ready() -> void:
 	attack_area.set_deferred("monitoring", false)
 
 
-func attack(side: Lib.Direction):
+func attack(side: Lib.Direction) -> void:
 	show()
 	var anim_name = "attack_"
 	match side:
