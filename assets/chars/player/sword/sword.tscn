@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://64oyq0rsm40m"]
+[gd_scene load_steps=9 format=3 uid="uid://64oyq0rsm40m"]
 
-[ext_resource type="Script" uid="uid://gp2cbcm4ax56" path="res://assets/chars/player/melee_weapon_sword.gd" id="1_6n7nt"]
+[ext_resource type="Script" uid="uid://gp2cbcm4ax56" path="res://assets/chars/player/sword/melee_weapon_sword.gd" id="1_6n7nt"]
+[ext_resource type="Resource" uid="uid://5q8vvi0fn8af" path="res://assets/chars/player/sword/sword_attack_params.tres" id="2_clqt7"]
 [ext_resource type="Texture2D" uid="uid://b82heicv0wui2" path="res://assets/chars/player/sword/sword.png" id="2_hrui3"]
 
 [sub_resource type="Animation" id="Animation_qf4kh"]
@@ -29,34 +30,29 @@ tracks/1/keys = {
 "update": 0,
 "values": [0.0]
 }
-
-[sub_resource type="Animation" id="Animation_h1s8d"]
-resource_name = "attack_right"
-length = 0.3
-step = 0.01
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Pivot/Sprite2D:self_modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.06, 0.2, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MeleeAttackArea:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+"values": [Vector2(0, 0)]
 }
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Pivot:rotation")
-tracks/1/interp = 2
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.2),
-"transitions": PackedFloat32Array(1, 1),
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("MeleeAttackArea:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [0.523599, 1.51583]
+"values": [3.14159]
 }
 
 [sub_resource type="Animation" id="Animation_6n7nt"]
@@ -85,24 +81,106 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [-0.523599, -1.51669]
+"values": [-0.349066, -1.91986]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MeleeAttackArea:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("MeleeAttackArea:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [3.14159]
+}
+
+[sub_resource type="Animation" id="Animation_hrui3"]
+resource_name = "attack_right"
+length = 0.3
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pivot/Sprite2D:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.06, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pivot:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.349066, 1.91986]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MeleeAttackArea:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("MeleeAttackArea:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [6.28318]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_qf4kh"]
 _data = {
 &"RESET": SubResource("Animation_qf4kh"),
 &"attack_left": SubResource("Animation_6n7nt"),
-&"attack_right": SubResource("Animation_h1s8d")
+&"attack_right": SubResource("Animation_hrui3")
 }
 
-[node name="Sword" type="Node2D"]
-rotation = -0.785397
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6n7nt"]
+size = Vector2(48, 16)
+
+[node name="Sword" type="Node2D" node_paths=PackedStringArray("attack_area")]
 script = ExtResource("1_6n7nt")
+attack_params = ExtResource("2_clqt7")
+attack_area = NodePath("MeleeAttackArea")
 
 [node name="Pivot" type="Marker2D" parent="."]
 
 [node name="Sprite2D" type="Sprite2D" parent="Pivot"]
-position = Vector2(28.2842, -28.2843)
+position = Vector2(-0.234567, -23.9989)
+rotation = -0.785397
 texture = ExtResource("2_hrui3")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Pivot"]
@@ -110,3 +188,16 @@ root_node = NodePath("../..")
 libraries = {
 &"": SubResource("AnimationLibrary_qf4kh")
 }
+
+[node name="MeleeAttackArea" type="Area2D" parent="."]
+rotation = 3.14159
+collision_layer = 4
+collision_mask = 4
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MeleeAttackArea"]
+position = Vector2(16, 0.000141938)
+shape = SubResource("RectangleShape2D_6n7nt")
+
+[connection signal="animation_finished" from="Pivot/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="body_entered" from="MeleeAttackArea" to="." method="_on_melee_attack_area_body_entered"]

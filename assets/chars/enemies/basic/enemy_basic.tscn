@@ -1,26 +1,30 @@
-[gd_scene load_steps=9 format=3 uid="uid://cts5s3t4asa6e"]
+[gd_scene load_steps=11 format=3 uid="uid://cts5s3t4asa6e"]
 
-[ext_resource type="Script" uid="uid://h8pg558ij2is" path="res://assets/chars/enemies/enemy_base.gd" id="1_r7xts"]
-[ext_resource type="Texture2D" uid="uid://ckf5vjpa0agu7" path="res://assets/chars/enemies/basic/enemy_basic.png" id="2_ouwiu"]
-[ext_resource type="Texture2D" uid="uid://dmk4j5h8nvtfd" path="res://assets/chars/enemies/basic/enemy_eyes.png" id="3_cdw23"]
-[ext_resource type="Script" uid="uid://dlpxy4k5mu84" path="res://assets/chars/char_eyes.gd" id="4_f8qt6"]
-[ext_resource type="Script" uid="uid://5ft82gbkrttm" path="res://assets/chars/enemies/enemy_health_bar.gd" id="5_t64q6"]
+[ext_resource type="Script" uid="uid://h8pg558ij2is" path="res://assets/chars/enemies/enemy_base.gd" id="1_5qhlg"]
+[ext_resource type="Texture2D" uid="uid://ckf5vjpa0agu7" path="res://assets/chars/enemies/basic/enemy_basic.png" id="2_doia6"]
+[ext_resource type="Resource" uid="uid://ia2368ltmphr" path="res://assets/chars/enemies/basic/enemy_basic_attack_params.tres" id="2_gbb26"]
+[ext_resource type="Texture2D" uid="uid://dmk4j5h8nvtfd" path="res://assets/chars/enemies/basic/enemy_basic_eyes.png" id="3_gbb26"]
+[ext_resource type="Script" uid="uid://dlpxy4k5mu84" path="res://assets/chars/char_eyes.gd" id="4_33okq"]
+[ext_resource type="Script" uid="uid://cvvhafw3b3bj7" path="res://assets/chars/char_sprite.gd" id="4_gbb26"]
+[ext_resource type="Script" uid="uid://5ft82gbkrttm" path="res://assets/chars/enemies/enemy_health_bar.gd" id="5_a6bw7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_t64q6"]
-size = Vector2(153, 28)
+size = Vector2(96, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lrfox"]
-size = Vector2(40, 27)
+size = Vector2(20, 14)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cdw23"]
-size = Vector2(32, 32)
+size = Vector2(16, 16)
 
-[node name="EnemyBasic" type="CharacterBody2D"]
-collision_layer = 5
-collision_mask = 7
-script = ExtResource("1_r7xts")
-chasing_speed = 250.0
-knockback = 1000.0
+[node name="EnemyBasic" type="CharacterBody2D" groups=["enemy"]]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_5qhlg")
+patroling_speed = 50.0
+chasing_speed = 130.0
+knockback_damp = 5.0
+touch_attack_params = ExtResource("2_gbb26")
 attack_freezing_time = 0.08
 
 [node name="DetectionArea" type="Area2D" parent="."]
@@ -30,7 +34,7 @@ collision_mask = 2
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
-position = Vector2(51.5, 0)
+position = Vector2(32, 0)
 shape = SubResource("RectangleShape2D_t64q6")
 
 [node name="AttackArea" type="Area2D" parent="."]
@@ -41,26 +45,15 @@ monitorable = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
 shape = SubResource("RectangleShape2D_lrfox")
 
-[node name="RayCasts" type="Node2D" parent="."]
-unique_name_in_owner = true
-
-[node name="PitRayCast" type="RayCast2D" parent="RayCasts"]
-unique_name_in_owner = true
-position = Vector2(16, 0)
-target_position = Vector2(0, 17)
-
-[node name="WallRayCast" type="RayCast2D" parent="RayCasts"]
-unique_name_in_owner = true
-rotation = -1.57079
-target_position = Vector2(0, 17)
-
 [node name="EnemySprite" type="Sprite2D" parent="."]
 unique_name_in_owner = true
-texture = ExtResource("2_ouwiu")
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_doia6")
+script = ExtResource("4_gbb26")
 
 [node name="Eyes" type="Sprite2D" parent="EnemySprite"]
-texture = ExtResource("3_cdw23")
-script = ExtResource("4_f8qt6")
+texture = ExtResource("3_gbb26")
+script = ExtResource("4_33okq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_cdw23")
@@ -68,20 +61,20 @@ shape = SubResource("RectangleShape2D_cdw23")
 [node name="HealthBar" type="ProgressBar" parent="."]
 custom_minimum_size = Vector2(32, 0)
 offset_left = -16.0
-offset_top = -24.0
+offset_top = -16.0
 offset_right = 16.0
-offset_bottom = -20.0
+offset_bottom = -12.0
 theme_type_variation = &"EnemyHealthBar"
 value = 50.0
 show_percentage = false
-script = ExtResource("5_t64q6")
+script = ExtResource("5_a6bw7")
 
 [node name="PlayerDetectedSign" type="Label" parent="."]
 unique_name_in_owner = true
 offset_left = -8.0
-offset_top = -52.0
+offset_top = -40.0
 offset_right = 8.0
-offset_bottom = -24.0
+offset_bottom = -12.0
 theme_override_colors/font_color = Color(1, 0.68572, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 1
@@ -89,14 +82,33 @@ theme_override_font_sizes/font_size = 20
 text = "!"
 horizontal_alignment = 1
 
+[node name="RayCasts" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="PitRayCast" type="RayCast2D" parent="RayCasts"]
+unique_name_in_owner = true
+position = Vector2(8, 0)
+target_position = Vector2(0, 9)
+
+[node name="WallRayCast" type="RayCast2D" parent="RayCasts"]
+unique_name_in_owner = true
+rotation = -1.57079
+target_position = Vector2(0, 10)
+
 [node name="AttackTimeout" type="Timer" parent="."]
 unique_name_in_owner = true
 wait_time = 0.75
 one_shot = true
 
 [node name="AttackTicker" type="Timer" parent="."]
+unique_name_in_owner = true
 wait_time = 0.05
-autostart = true
+
+[node name="StunTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+
+[node name="DirChangeTimer" type="Timer" parent="."]
+one_shot = true
 
 [connection signal="hp_changed" from="." to="HealthBar" method="set_hp"]
 [connection signal="max_hp_changed" from="." to="HealthBar" method="set_max_hp_value"]
@@ -105,3 +117,5 @@ autostart = true
 [connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]
 [connection signal="body_exited" from="AttackArea" to="." method="_on_attack_area_body_exited"]
 [connection signal="timeout" from="AttackTicker" to="." method="_on_attack_ticker_timeout"]
+[connection signal="timeout" from="StunTimer" to="." method="_on_stun_timer_timeout"]
+[connection signal="timeout" from="DirChangeTimer" to="." method="_on_dir_change_timer_timeout"]

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="AttackParams" load_steps=2 format=3 uid="uid://5q8vvi0fn8af"]
+
+[ext_resource type="Script" uid="uid://ccnhjawrmkyt3" path="res://assets/common/attack_params.gd" id="1_446u8"]
+
+[resource]
+script = ExtResource("1_446u8")
+damage = 8.0
+knockback = 800.0
+stun_time = 0.5
+metadata/_custom_type_script = "uid://ccnhjawrmkyt3"

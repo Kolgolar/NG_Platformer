@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://20am6myyiaxx"]
+
+[ext_resource type="PackedScene" uid="uid://bgs68s36hsubg" path="res://assets/items/pickable_base.tscn" id="1_subpa"]
+[ext_resource type="Resource" uid="uid://b1chelybg2lsj" path="res://assets/items/health/item_health.tres" id="2_oiwq6"]
+
+[node name="PickableHealth" instance=ExtResource("1_subpa")]
+item_data = ExtResource("2_oiwq6")

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://b1chelybg2lsj"]
+
+[ext_resource type="Script" uid="uid://b8ptlsrdlxupa" path="res://assets/items/health/item_data_health.gd" id="1_bdsja"]
+
+[resource]
+script = ExtResource("1_bdsja")
+health_add = 25.0
+name = "Health"
+desc = "Adds some health"
+metadata/_custom_type_script = "uid://cd4yee7lmiev5"

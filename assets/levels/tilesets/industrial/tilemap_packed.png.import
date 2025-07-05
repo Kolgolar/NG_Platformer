@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dmk4j5h8nvtfd"
-path="res://.godot/imported/enemy_eyes.png-d7d3e868f0e7932fe17ed9010805825a.ctex"
+uid="uid://cyl387l1p5wqu"
+path="res://.godot/imported/tilemap_packed.png-40c35c449bb9e53664ea40895c6c6838.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/chars/enemies/basic/enemy_eyes.png"
-dest_files=["res://.godot/imported/enemy_eyes.png-d7d3e868f0e7932fe17ed9010805825a.ctex"]
+source_file="res://assets/levels/tilesets/industrial/tilemap_packed.png"
+dest_files=["res://.godot/imported/tilemap_packed.png-40c35c449bb9e53664ea40895c6c6838.ctex"]
 
 [params]
 

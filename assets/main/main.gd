@@ -10,12 +10,10 @@ func _ready() -> void:
 	level.game_over.connect(_on_level_test_game_over)
 	level.player.hp_changed.connect(%HUD.set_hp_value)
 	level.player.max_hp_changed.connect(%HUD.set_max_hp_value)
-
-
-func _on_level_test_game_over(is_player_won: bool) -> void:
-	%HUD.set_game_over(true, is_player_won)
-	is_game_ended = true
-
+	level.enemy_killed.connect(_on_level_enemy_killed)
+	
+	_on_level_enemy_killed()
+	
 
 func _unhandled_input(event: InputEvent) -> void:
 	if is_game_ended:
@@ -26,6 +24,17 @@ func _unhandled_input(event: InputEvent) -> void:
 			%RestartHoldTimer.start()
 		elif event.is_action_released("game_restart"):
 			%RestartHoldTimer.stop()
+
+
+func _on_level_enemy_killed():
+	%HUD.set_kills_label_text("Killed: %s/%s" % [
+		level.killed_enemies, level.total_enemies
+	])
+
+
+func _on_level_test_game_over(is_player_won: bool) -> void:
+	%HUD.set_game_over(true, is_player_won)
+	is_game_ended = true
 
 
 func _on_restart_hold_timer_timeout() -> void:

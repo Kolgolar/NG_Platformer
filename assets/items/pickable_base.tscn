@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://bgs68s36hsubg"]
+
+[ext_resource type="Script" uid="uid://c2pfsf7u4g7e4" path="res://assets/items/pickable_base.gd" id="1_8vvf2"]
+[ext_resource type="Texture2D" uid="uid://bpqckkhsit0e0" path="res://assets/items/items.png" id="2_gycku"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w3e1j"]
+size = Vector2(18, 18)
+
+[node name="Pickable" type="Area2D"]
+collision_layer = 8
+collision_mask = 8
+script = ExtResource("1_8vvf2")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_gycku")
+region_enabled = true
+region_rect = Rect2(0.219675, 0.0796893, 17.7803, 17.9203)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_w3e1j")
