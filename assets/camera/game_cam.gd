@@ -7,8 +7,10 @@ extends Camera2D
 func _ready() -> void:
 	if start_pos_at_target && position_smoothing_enabled:
 		position_smoothing_enabled = false
+		await get_tree().process_frame
 		_move_to_target()
-		set_deferred("position_smoothing_enabled", true)
+		await get_tree().process_frame
+		position_smoothing_enabled = true
 
 
 func _process(delta: float) -> void:

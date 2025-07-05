@@ -11,9 +11,8 @@ var _alive := true
 var _can_floor_jump := false
 var _air_jumps_q := 0
 var _was_on_floor := false
-var _ignored_platforms: Array[PhysicsBody2D] = []
 var _knockback_vel_x_add := 0.
-var _curr_dir: Lib.Direction
+var _curr_dir := Lib.Direction.RIGHT
 
 @export_category("Movement")
 @export var max_move_speed: float = 350.
@@ -34,6 +33,7 @@ var _curr_dir: Lib.Direction
 @export var melee_damage := 50.
 @export var ranged_damage := 33.
 @export var melee_weapon: MeleeWeapon
+@export var bottom_attack: AttackParams
 
 @onready var hp: float = max_hp:
 	set(value):
@@ -51,6 +51,8 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	_movement(delta)
+	
+	
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -61,19 +63,19 @@ func _unhandled_input(event: InputEvent) -> void:
 func death():
 	hide()
 	dead.emit()
-	%BodyCollision.disabled = true
+	%BodyCollision.set_deferred("disabled", true)
 	_alive = false
 
 
 func get_dir() -> Lib.Direction:
 	return _curr_dir
 
-func hit(damage: float, knockback: float, from: Vector2):
-	hp -= damage
+func hit(attack_params: AttackParams, from: Vector2):
+	hp -= attack_params.damage
 	var knockback_dir = Vector2(
 		sign(global_position.x - from.x) * 2, -1.
 	).normalized()
-	var total_knockback: Vector2 = knockback_dir * knockback
+	var total_knockback: Vector2 = knockback_dir * attack_params.knockback
 	_knockback_vel_x_add += total_knockback.x
 	velocity.y = total_knockback.y
 
@@ -87,8 +89,8 @@ func _movement(delta: float) -> void:
 	_knockback_vel_x_add = lerp(_knockback_vel_x_add, 0., knockback_damp * delta)
 	velocity.x = axis_x * max_move_speed + _knockback_vel_x_add
 	if axis_x != 0:
-		%PlayerSprite.scale.x = axis_x
 		_curr_dir = Lib.Direction.RIGHT if axis_x > 0 else Lib.Direction.LEFT
+		%PlayerSprite.look_to(_curr_dir)
 	
 	#----------------------------
 	# Движение по вертикали
@@ -119,16 +121,6 @@ func _movement(delta: float) -> void:
 			_was_on_floor = true
 		_can_floor_jump = true
 		_air_jumps_q = 0
-		# Спрыгиваем с платформы. Добавляем все платформы, которых касается игрок,
-		# в список исключений на короткое время.
-		if Input.is_action_pressed("move_down"):
-			for i in get_slide_collision_count():
-				var collider: Object = get_slide_collision(i).get_collider()
-				if collider.is_in_group("platform"):
-					add_collision_exception_with(collider)
-					_ignored_platforms.append(collider)
-			if !_ignored_platforms.is_empty():
-				get_tree().create_timer(0.05).timeout.connect(_clear_platform_exceptions)
 	
 	#----------------------------
 	# Если находимся в воздухе
@@ -150,11 +142,30 @@ func _clone_particles(particles: DisposableParticles, deleting_time := 4.0):
 
 
 func _clear_platform_exceptions():
-	for platform in _ignored_platforms:
-		remove_collision_exception_with(platform)
-		_ignored_platforms.erase(platform)
+	set_collision_mask_value(1, true)
+	set_collision_layer_value(1, true)
+
+
+func pick_up_item(item: Pickable):
+	match item.item_data.type:
+		Lib.ItemType.HEALTH:
+			if max_hp - hp >= 0.01: # Перестраховка от приколов со сравнением float'ов
+				hp += item.item_data.health_add
+				item.queue_free()
 
 
 func _on_air_state_delay_timer_timeout() -> void:
 	_can_floor_jump = false
  
+
+func _on_trigger_area_area_entered(area: Area2D) -> void:
+	if area is Pickable:
+		pick_up_item(area)
+
+
+func _on_bottom_attack_timer_timeout() -> void:
+	if velocity.y < 0: return
+	var enemies = %BottomAttackArea.get_overlapping_bodies()
+	for enemy in enemies:
+		enemy.hit(bottom_attack, global_position)
+		velocity.y = -jump_vel

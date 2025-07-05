@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://c3ypfw4sc20g2"]
+
+[ext_resource type="Script" uid="uid://bda7ainl1r3nr" path="res://assets/levels/player_trigger.gd" id="1_o0g5d"]
+
+[node name="Trigger" type="Area2D"]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_o0g5d")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
