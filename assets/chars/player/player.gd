@@ -13,6 +13,7 @@ var _air_jumps_q := 0
 var _was_on_floor := false
 var _knockback_vel_x_add := 0.
 var _curr_dir := Lib.Direction.RIGHT
+var _can_bottom_attack := true
 
 @export_category("Movement")
 @export var max_move_speed: float = 350.
@@ -30,8 +31,6 @@ var _curr_dir := Lib.Direction.RIGHT
 	set(value):
 		max_hp = value
 		max_hp_changed.emit(value)
-@export var melee_damage := 50.
-@export var ranged_damage := 33.
 @export var melee_weapon: MeleeWeapon
 @export var bottom_attack: AttackParams
 
@@ -52,8 +51,6 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	_movement(delta)
 	
-	
-
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("attack"):
@@ -107,8 +104,7 @@ func _movement(delta: float) -> void:
 			should_jump = true
 		
 		if should_jump:
-			velocity.y = -jump_vel
-			%PlayerSprite.start_squish_tween()
+			_jump()
 	
 	#----------------------------
 	# Если находимся на земле
@@ -117,7 +113,8 @@ func _movement(delta: float) -> void:
 		# Если только что призмелились
 		if !_was_on_floor:
 			%PlayerSprite.start_squish_tween()
-			_clone_particles(landing_particles)
+			landing_particles.restart()
+			landing_particles.emitting = true
 			_was_on_floor = true
 		_can_floor_jump = true
 		_air_jumps_q = 0
@@ -135,10 +132,9 @@ func _movement(delta: float) -> void:
 	move_and_slide()
 
 
-func _clone_particles(particles: DisposableParticles, deleting_time := 4.0):
-	var cloned_p = particles.duplicate()
-	%Particles.add_child(cloned_p)
-	cloned_p.start()
+func _jump():
+	velocity.y = -jump_vel
+	%PlayerSprite.start_squish_tween()
 
 
 func _clear_platform_exceptions():
@@ -163,9 +159,17 @@ func _on_trigger_area_area_entered(area: Area2D) -> void:
 		pick_up_item(area)
 
 
-func _on_bottom_attack_timer_timeout() -> void:
+func _on_bottom_attack_ticker_timeout() -> void:
 	if velocity.y < 0: return
 	var enemies = %BottomAttackArea.get_overlapping_bodies()
+	if enemies.size() == 0: return
+	_jump()
+	if !_can_bottom_attack: return
 	for enemy in enemies:
 		enemy.hit(bottom_attack, global_position)
-		velocity.y = -jump_vel
+	_can_bottom_attack = false
+	%BottomAttackThreshold.start()
+
+
+func _on_bottom_attack_threshold_timeout() -> void:
+	_can_bottom_attack = true

@@ -12,9 +12,9 @@
 
 [sub_resource type="Resource" id="Resource_cks2t"]
 script = ExtResource("2_qf4kh")
-damage = 99999.0
+damage = 10.0
 knockback = 0.0
-stun_time = 0.2
+stun_time = 1.0
 metadata/_custom_type_script = "uid://ccnhjawrmkyt3"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h1s8d"]
@@ -58,7 +58,7 @@ hue_variation_min = -0.3
 hue_variation_max = 0.3
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qf4kh"]
-size = Vector2(16, 2)
+size = Vector2(12, 2)
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("landing_particles", "melee_weapon")]
 collision_layer = 2
@@ -110,7 +110,6 @@ explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_v2miy")
 
 [node name="LandingParticles" type="GPUParticles2D" parent="Particles"]
-visible = false
 position = Vector2(0, 8)
 emitting = false
 one_shot = true
@@ -130,13 +129,22 @@ shape = SubResource("RectangleShape2D_qf4kh")
 
 [node name="AirStateDelayTimer" type="Timer" parent="."]
 unique_name_in_owner = true
+process_callback = 0
 one_shot = true
 
-[node name="BottomAttackTimer" type="Timer" parent="."]
+[node name="BottomAttackTicker" type="Timer" parent="."]
 unique_name_in_owner = true
+process_callback = 0
 wait_time = 0.05
 autostart = true
 
+[node name="BottomAttackThreshold" type="Timer" parent="."]
+unique_name_in_owner = true
+process_callback = 0
+wait_time = 0.2
+one_shot = true
+
 [connection signal="area_entered" from="TriggerArea" to="." method="_on_trigger_area_area_entered"]
 [connection signal="timeout" from="AirStateDelayTimer" to="." method="_on_air_state_delay_timer_timeout"]
-[connection signal="timeout" from="BottomAttackTimer" to="." method="_on_bottom_attack_timer_timeout"]
+[connection signal="timeout" from="BottomAttackTicker" to="." method="_on_bottom_attack_ticker_timeout"]
+[connection signal="timeout" from="BottomAttackThreshold" to="." method="_on_bottom_attack_threshold_timeout"]
