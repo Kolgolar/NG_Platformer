@@ -286,7 +286,7 @@ position = Vector2(344, 208)
 position = Vector2(576, 316)
 
 [node name="EndLevelTrigger" parent="." instance=ExtResource("8_8tbbx")]
-position = Vector2(888, 184)
+position = Vector2(888, 172)
 
 [node name="CollisionShape2D" parent="EndLevelTrigger" index="0"]
 position = Vector2(4, -4)

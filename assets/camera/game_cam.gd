@@ -17,6 +17,6 @@ func _process(delta: float) -> void:
 	_move_to_target()
 
 
-func _move_to_target():
+func _move_to_target() -> void:
 	if target:
 		global_position = target.global_position

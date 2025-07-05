@@ -5,7 +5,9 @@ signal max_hp_changed(value: float)
 signal hp_changed(value: float)
 signal dead
 
-var _alive := true
+var is_control_locked := false
+
+var _is_alive := true
 # Истина, если перс на полу или совсем недавно покинул поверхность БЕЗ совершения прыжка. Тем самым
 # даём игроку небольшую фору
 var _can_floor_jump := false
@@ -57,17 +59,17 @@ func _unhandled_input(event: InputEvent) -> void:
 		melee_weapon.attack(get_dir())
 
 
-func death():
+func death() -> void:
 	hide()
 	dead.emit()
 	%BodyCollision.set_deferred("disabled", true)
-	_alive = false
+	_is_alive = false
 
 
 func get_dir() -> Lib.Direction:
 	return _curr_dir
 
-func hit(attack_params: AttackParams, from: Vector2):
+func hit(attack_params: AttackParams, from: Vector2) -> void:
 	hp -= attack_params.damage
 	var knockback_dir = Vector2(
 		sign(global_position.x - from.x) * 2, -1.
@@ -78,11 +80,11 @@ func hit(attack_params: AttackParams, from: Vector2):
 
 
 func _movement(delta: float) -> void:
-	if !_alive: return
+	if !_is_alive: return
 	#----------------------------
 	# Движение по горизонтали
 	#----------------------------
-	var axis_x = Input.get_axis("move_left", "move_right")
+	var axis_x = Input.get_axis("move_left", "move_right") if !is_control_locked else 0.
 	_knockback_vel_x_add = lerp(_knockback_vel_x_add, 0., knockback_damp * delta)
 	velocity.x = axis_x * max_move_speed + _knockback_vel_x_add
 	if axis_x != 0:
@@ -93,7 +95,7 @@ func _movement(delta: float) -> void:
 	# Движение по вертикали
 	#----------------------------
 	# Если прожали прыжок, не важно, в воздухе или на земле
-	if Input.is_action_just_pressed("move_jump"):
+	if !is_control_locked && Input.is_action_just_pressed("move_jump"):
 		var should_jump := false
 		if is_on_floor() || _can_floor_jump:
 			_can_floor_jump = false
@@ -132,17 +134,12 @@ func _movement(delta: float) -> void:
 	move_and_slide()
 
 
-func _jump():
+func _jump() -> void:
 	velocity.y = -jump_vel
 	%PlayerSprite.start_squish_tween()
 
 
-func _clear_platform_exceptions():
-	set_collision_mask_value(1, true)
-	set_collision_layer_value(1, true)
-
-
-func pick_up_item(item: Pickable):
+func pick_up_item(item: Pickable) -> void:
 	match item.item_data.type:
 		Lib.ItemType.HEALTH:
 			if max_hp - hp >= 0.01: # Перестраховка от приколов со сравнением float'ов

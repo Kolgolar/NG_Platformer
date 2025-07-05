@@ -26,7 +26,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			%RestartHoldTimer.stop()
 
 
-func _on_level_enemy_killed():
+func _on_level_enemy_killed() -> void:
 	%HUD.set_kills_label_text("Killed: %s/%s" % [
 		level.killed_enemies, level.total_enemies
 	])
