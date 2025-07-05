@@ -55,7 +55,7 @@ func _physics_process(delta: float) -> void:
 	
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("attack"):
+	if !is_control_locked && event.is_action_pressed("attack"):
 		melee_weapon.attack(get_dir())
 
 

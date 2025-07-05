@@ -7,4 +7,5 @@ script = ExtResource("1_bdsja")
 health_add = 25.0
 name = "Health"
 desc = "Adds some health"
+type = 0
 metadata/_custom_type_script = "uid://cd4yee7lmiev5"
