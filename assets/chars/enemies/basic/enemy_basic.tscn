@@ -110,10 +110,6 @@ wait_time = 0.05
 unique_name_in_owner = true
 process_callback = 0
 
-[node name="DirChangeTimer" type="Timer" parent="."]
-process_callback = 0
-one_shot = true
-
 [connection signal="hp_changed" from="." to="HealthBar" method="set_hp"]
 [connection signal="max_hp_changed" from="." to="HealthBar" method="set_max_hp_value"]
 [connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
@@ -122,4 +118,3 @@ one_shot = true
 [connection signal="body_exited" from="AttackArea" to="." method="_on_attack_area_body_exited"]
 [connection signal="timeout" from="AttackTicker" to="." method="_on_attack_ticker_timeout"]
 [connection signal="timeout" from="StunTimer" to="." method="_on_stun_timer_timeout"]
-[connection signal="timeout" from="DirChangeTimer" to="." method="_on_dir_change_timer_timeout"]

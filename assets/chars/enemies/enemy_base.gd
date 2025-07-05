@@ -176,7 +176,3 @@ func _on_attack_ticker_timeout() -> void:
 
 func _on_stun_timer_timeout() -> void:
 	_is_stunned = false
-
-
-func _on_dir_change_timer_timeout() -> void:
-	pass # Replace with function body.
